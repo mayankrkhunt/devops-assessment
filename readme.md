@@ -50,18 +50,29 @@ Afterwards, you need to install and deploy the following services to your cluste
 3.  $ make cluster
 4.  I faced error and unable to create cluster. I have modified below parameters in "Makefile"
     - "--k3s-arg '--disable=traefik@server:0'"
-     **Corrected Makefile**
- cluster:
-	k3d cluster create sandman \
-	    -p 8080:80@loadbalancer \
-	    -v /etc/machine-id:/etc/machine-id:ro \
-	    -v /var/log/journal:/var/log/journal:ro \
-	    -v /var/run/docker.sock:/var/run/docker.sock \
-	    --k3s-arg '--disable=traefik@server:0' \
-	    --agents 0
+   - **Corrected Makefile**
+- <img width="933" alt="image" src="https://user-images.githubusercontent.com/30410957/187270559-0c90b31e-8887-4edb-932f-22b149580f7b.png">
+5. Makefile result
+- <img width="687" alt="image" src="https://user-images.githubusercontent.com/30410957/187270710-042eab05-6173-4bce-bdcc-6d18b4af4604.png">
+6. Install Helm for package dependency for K8s.
+- <img width="821" alt="image" src="https://user-images.githubusercontent.com/30410957/187271235-a1d68421-f4f6-4ff4-8e66-fd05b62ef939.png">
+7. Install nginx ingress using Helm with below commands and preparing repo
+- <img width="818" alt="image" src="https://user-images.githubusercontent.com/30410957/187280352-af8e00aa-93e7-45e5-b4b5-655d8b43aef3.png">
+- helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+- helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace --set controller.publishService.enabled=true
+8. Install kubectl using below command
+- curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+- chmod +x kubectl
+- cp ~/.local/bin/kubectl /usr/bin/
+9. Verify cluster using below commands.
+- kubectl get all --namespace=ingress-nginx
+- <img width="685" alt="image" src="https://user-images.githubusercontent.com/30410957/187281569-729b20fd-7481-47bc-8f8d-7aefc948ce38.png">
+10. Install prometheus using Helm with below commands and verification
+- helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+- helm install prometheus prometheus-community/prometheus -n prometheus --create-namespace
+- kubectl get all --namespace=prometheus
+- <img width="641" alt="image" src="https://user-images.githubusercontent.com/30410957/187281676-82f76a5a-3e04-4d66-a5fa-f07e261e9f3b.png">
 
-        - 
-    - 
 
 ## III - service deployment
 
@@ -78,6 +89,12 @@ Afterwards, you need to install and deploy the following services to your cluste
 
 all the resources mentioned above should exist on the same one namespace, and the service should be running and accessible. 
 
+[Mayank]: - service deployment using below steps
+1. $ cd manifest
+2. $ kubectl apply -f app-deployment.yaml
+3. $ kubectl apply -f app-service.yaml
+4. $ kubectl apply -f app-ingress.yaml
+
 ## IV - bonus
 
 - deploy jenkins (CICD tool) to your cluster using helm.
@@ -85,5 +102,15 @@ all the resources mentioned above should exist on the same one namespace, and th
     - stage 1 : build the sample service docker image and pushes it to dockerhub.
     - stage 2 : deploy the sample service to the cluster with a rollout strategy.
 
+[Mayank]: - Installed Jenkins using helm
+1. $ helm repo add jenkins https://charts.jenkins.io
+2. $ helm repo update
+3. $ helm install jenkins-ci jenkins/jenkins
+4. $ kubectl apply -f jenkins-ingress.yaml
+
+[Mayank]: - Build and deployment
+1. Clone the repo inside the build pod
+2. Build the image and tag with latest build number and push the image to docker registry.
+3. Getting the last deployed image in variable and replacing the old image with new image with lastest tag as build number in app-deplyment.yaml file and finally deployed the app-deployment.yaml.
 
  ✨ Good Luck ✨

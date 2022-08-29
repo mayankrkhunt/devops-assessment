@@ -14,12 +14,24 @@ To complete this assessment your machine need to have the following installed :
 - make (CLI tool)
 - WSL (in case you are running windows)
 
+[Mayank]: I created AWS account and git account as prerequisites.
+- I have created EC2-Ubuntu instance and SSH access enabled.
+
 
 ## I - environment preparation
 
 This assessment uses a lightweight k8s cluster called k3d that can simulate a cluster of more than one node on your personal machine. 
 
 ∴ the first part of the asseessment is to install _k3d_.
+
+[Mayank]: - Fllowed below steps to prepare the require environment.
+1.  $ sudo su -
+2.  $ apt-get update
+3.  Install Docker from official website. -> https://docs.docker.com/engine/install/ubuntu/
+4.  Install Git on Ubuntu server.
+5.  $ apt-get install git
+6.  $ git clone https://github.com/HatimAbdullah/devops-assessment.git
+
 
 ## II - cluster preparation 
 
@@ -31,6 +43,25 @@ Afterwards, you need to install and deploy the following services to your cluste
 
 - nginx ingress 
 - prometheus 
+
+[Mayank]: - Create K3D cluster
+1.  $ sudo su -
+2.  $ cd /home/ubuntu/devops-assessment/
+3.  $ make cluster
+4.  I faced error and unable to create cluster. I have modified below parameters in "Makefile"
+    - "--k3s-arg '--disable=traefik@server:0'"
+     **Corrected Makefile**
+ cluster:
+	k3d cluster create sandman \
+	    -p 8080:80@loadbalancer \
+	    -v /etc/machine-id:/etc/machine-id:ro \
+	    -v /var/log/journal:/var/log/journal:ro \
+	    -v /var/run/docker.sock:/var/run/docker.sock \
+	    --k3s-arg '--disable=traefik@server:0' \
+	    --agents 0
+
+        - 
+    - 
 
 ## III - service deployment
 

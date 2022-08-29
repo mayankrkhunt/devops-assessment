@@ -76,6 +76,7 @@ Afterwards, you need to install and deploy the following services to your cluste
 - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 - helm install prometheus prometheus-community/prometheus -n prometheus --create-namespace
 - kubectl get all --namespace=prometheus
+
     <img width="641" alt="image" src="https://user-images.githubusercontent.com/30410957/187281676-82f76a5a-3e04-4d66-a5fa-f07e261e9f3b.png">
 
 

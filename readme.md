@@ -51,13 +51,17 @@ Afterwards, you need to install and deploy the following services to your cluste
 4.  I faced error and unable to create cluster. I have modified below parameters in "Makefile"
     - "--k3s-arg '--disable=traefik@server:0'"
    - **Corrected Makefile**
-- <img width="933" alt="image" src="https://user-images.githubusercontent.com/30410957/187270559-0c90b31e-8887-4edb-932f-22b149580f7b.png">
+    <img width="933" alt="image" src="https://user-images.githubusercontent.com/30410957/187270559-0c90b31e-8887-4edb-932f-22b149580f7b.png">
+
 5. Makefile result
-- <img width="687" alt="image" src="https://user-images.githubusercontent.com/30410957/187270710-042eab05-6173-4bce-bdcc-6d18b4af4604.png">
+    <img width="687" alt="image" src="https://user-images.githubusercontent.com/30410957/187270710-042eab05-6173-4bce-bdcc-6d18b4af4604.png">
+    
 6. Install Helm for package dependency for K8s.
-- <img width="821" alt="image" src="https://user-images.githubusercontent.com/30410957/187271235-a1d68421-f4f6-4ff4-8e66-fd05b62ef939.png">
+    <img width="821" alt="image" src="https://user-images.githubusercontent.com/30410957/187271235-a1d68421-f4f6-4ff4-8e66-fd05b62ef939.png">
+    
+    <img width="818" alt="image" src="https://user-images.githubusercontent.com/30410957/187280352-af8e00aa-93e7-45e5-b4b5-655d8b43aef3.png">
+    
 7. Install nginx ingress using Helm with below commands and preparing repo
-- <img width="818" alt="image" src="https://user-images.githubusercontent.com/30410957/187280352-af8e00aa-93e7-45e5-b4b5-655d8b43aef3.png">
 - helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 - helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace --set controller.publishService.enabled=true
 8. Install kubectl using below command
@@ -66,12 +70,12 @@ Afterwards, you need to install and deploy the following services to your cluste
 - cp ~/.local/bin/kubectl /usr/bin/
 9. Verify cluster using below commands.
 - kubectl get all --namespace=ingress-nginx
-- <img width="685" alt="image" src="https://user-images.githubusercontent.com/30410957/187281569-729b20fd-7481-47bc-8f8d-7aefc948ce38.png">
+    <img width="685" alt="image" src="https://user-images.githubusercontent.com/30410957/187281569-729b20fd-7481-47bc-8f8d-7aefc948ce38.png">
 10. Install prometheus using Helm with below commands and verification
 - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 - helm install prometheus prometheus-community/prometheus -n prometheus --create-namespace
 - kubectl get all --namespace=prometheus
-- <img width="641" alt="image" src="https://user-images.githubusercontent.com/30410957/187281676-82f76a5a-3e04-4d66-a5fa-f07e261e9f3b.png">
+    <img width="641" alt="image" src="https://user-images.githubusercontent.com/30410957/187281676-82f76a5a-3e04-4d66-a5fa-f07e261e9f3b.png">
 
 
 ## III - service deployment

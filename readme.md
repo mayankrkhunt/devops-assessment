@@ -50,10 +50,11 @@ Afterwards, you need to install and deploy the following services to your cluste
 3.  $ make cluster
 4.  I faced error and unable to create cluster. I have modified below parameters in "Makefile"
     - "--k3s-arg '--disable=traefik@server:0'"
-   - **Corrected Makefile**
+   **Corrected Makefile**
     <img width="933" alt="image" src="https://user-images.githubusercontent.com/30410957/187270559-0c90b31e-8887-4edb-932f-22b149580f7b.png">
 
 5. Makefile result
+    
     <img width="687" alt="image" src="https://user-images.githubusercontent.com/30410957/187270710-042eab05-6173-4bce-bdcc-6d18b4af4604.png">
     
 6. Install Helm for package dependency for K8s.
